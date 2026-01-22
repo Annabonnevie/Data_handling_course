@@ -1,5 +1,58 @@
 ---
 title: "Exercise_economist"
+author: Anna Bonnevie
+date: 2026-01-22
 format: html
+editor: visual
+theme: cosmo
+code-fold: true
 ---
 
+# Exercise on economist scatterplot in Quarto
+
+## This exercise is part of the doctoral course "Data handling and high quality illustrations for publications" at SLU.
+
+### Script from previous exercise has been used in the present one, to practice using Quarto, Github and to provide understandable script for reproducibility.
+
+Download the library readr. The data file used is data_economist.csv, found [here](https://www.dropbox.com/s/7imn0eoey9ckxh5/data_economist.csv?dl=1). Make a new data frame named "ec".
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+library(readr) 
+library(ggplot2)
+ec <- read_csv("https://www.dropbox.com/s/7imn0eoey9ckxh5/data_economist.csv?dl=1") 
+```
+
+Visualise the first rows of ec, and the structure of the file.
+
+```{r}
+head(ec)
+str(ec)
+```
+
+Now, have a look at the Regions in ec.
+
+```{R}
+#| message: false
+#| warning: false
+levels(ec$Region)
+```
+
+Rename the regions to the following: "OECD", "Americas", "Asia & Oceania", "Central & Eastern Europe", "Middle East & north Africa", "Sub-Saharan Africa". Add radbrytning before "Oceania", "Easern", "north" and the last "Africa".
+
+```{R}
+#| message: false
+#| warning: false
+#| include: false
+ec$Region <- factor(ec$Region, levels = c("EU W. Europe", "Americas", "Asia Pacifics", "East EU Cemt Asia", "MENA", "SSA"), labels = c("OECD", "Americas", "Asia & \nOceania", "Central & \nEastern Europe", "Middle East & \nnorth Africa", "Sub-Saharan \nAfrica"))
+
+levels(ec$Region)
+```
+
+```{r}
+ggplot(data = ec, aes(x=CPI, y= HDI, colour = Region)) + geom_point(shape=21, size=3, stroke=0.8, fill="white") + geom_smooth(method = "lm", formula = y~poly(x,2), se=F, size=0.6, color = "red")
+
+```
